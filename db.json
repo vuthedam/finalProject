@@ -1,0 +1,62 @@
+{
+  "transactions": [
+    {
+      "amount": 50000,
+      "type": "expense",
+      "description": "ăn sáng",
+      "date": "2026-04-08",
+      "categoryId": 1,
+      "userId": 1,
+      "id": 1
+    },
+    {
+      "amount": 500000,
+      "type": "income",
+      "description": "tăng ca",
+      "date": "2026-04-15",
+      "categoryId": 2,
+      "userId": 1,
+      "id": 2
+    },
+    {
+      "amount": 500000,
+      "type": "expense",
+      "description": "xe",
+      "date": "2026-04-03",
+      "categoryId": 3,
+      "userId": 1,
+      "id": 3
+    }
+  ],
+  "categories": [
+    {
+      "name": "Ăn uống",
+      "type": "expense",
+      "budget": 2000000,
+      "userId": 1,
+      "id": 1
+    },
+    {
+      "name": "Lương",
+      "type": "income",
+      "budget": 5000000,
+      "userId": 1,
+      "id": 2
+    },
+    {
+      "name": "xe",
+      "type": "expense",
+      "budget": 0,
+      "userId": 1,
+      "id": 3
+    }
+  ],
+  "users": [
+    {
+      "email": "admin@gmail.com",
+      "password": "$2a$10$z7nRHS8.5RL3DZwHTR9rnO.T5Sm0kfM7x6C2cTtqNQ2T8JOvLP8vK",
+      "fullname": "admin",
+      "id": 1
+    }
+  ]
+}

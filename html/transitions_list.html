@@ -1,0 +1,870 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              outline: "#737785",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary-fixed-variant": "#812800",
+              "surface-tint": "#0056d2",
+              "surface-container-high": "#e5e9eb",
+              "outline-variant": "#c3c6d6",
+              "primary-container": "#0056d2",
+              "inverse-primary": "#b2c5ff",
+              "on-secondary-container": "#0c6d76",
+              error: "#ba1a1a",
+              "tertiary-fixed-dim": "#ffb59b",
+              "tertiary-container": "#a93802",
+              "on-surface": "#181c1e",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-container-low": "#f1f4f6",
+              "on-primary": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "surface-bright": "#f7fafc",
+              "on-primary-container": "#ccd8ff",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed": "#a1eff9",
+              "on-error-container": "#93000a",
+              "secondary-container": "#9eecf6",
+              "error-container": "#ffdad6",
+              "on-background": "#181c1e",
+              primary: "#0040a1",
+              "primary-fixed": "#dae2ff",
+              "surface-dim": "#d7dadc",
+              secondary: "#006972",
+              "secondary-fixed-dim": "#85d3dd",
+              background: "#f7fafc",
+              "on-primary-fixed-variant": "#0040a1",
+              "on-primary-fixed": "#001847",
+              surface: "#f7fafc",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed": "#380d00",
+              "on-surface-variant": "#424654",
+              "on-secondary-fixed": "#001f23",
+              "surface-variant": "#e0e3e5",
+              "surface-container": "#ebeef0",
+              tertiary: "#822800",
+              "on-secondary-fixed-variant": "#004f56",
+              "inverse-on-surface": "#eef1f3",
+              "primary-fixed-dim": "#b2c5ff",
+              "tertiary-fixed": "#ffdbcf",
+              "on-tertiary-container": "#ffcebd",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f7fafc;
+      }
+      .glass-header {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <!-- SideNavBar (Desktop) -->
+    <aside
+      class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-slate-50 dark:bg-slate-950 transition-all duration-200 ease-in-out border-r border-slate-100 dark:border-slate-800 z-50"
+    >
+      <div class="px-6 py-8">
+        <div class="flex items-center gap-3 mb-10">
+          <div
+            class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white"
+          >
+            <span
+              class="material-symbols-outlined"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >account_balance_wallet</span
+            >
+          </div>
+          <div>
+            <h2
+              class="text-lg font-black text-blue-700 dark:text-blue-400 font-headline leading-tight"
+            >
+              Enterprise
+            </h2>
+            <p class="text-xs text-slate-500 font-medium">Expense Suite</p>
+          </div>
+        </div>
+        <nav class="space-y-1">
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors font-body text-sm"
+            href="#"
+          >
+            <span class="material-symbols-outlined">dashboard</span>
+            <span>Dashboard</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-bold border-r-4 border-blue-700 dark:border-blue-400 font-body text-sm"
+            href="#"
+          >
+            <span
+              class="material-symbols-outlined"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >receipt_long</span
+            >
+            <span>Transactions</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors font-body text-sm"
+            href="#"
+          >
+            <span class="material-symbols-outlined">add_circle</span>
+            <span>Add Expense</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors font-body text-sm"
+            href="#"
+          >
+            <span class="material-symbols-outlined">analytics</span>
+            <span>Reports</span>
+          </a>
+        </nav>
+      </div>
+      <div class="mt-auto px-6 py-8 space-y-1">
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors font-body text-sm"
+          href="#"
+        >
+          <span class="material-symbols-outlined">settings</span>
+          <span>Settings</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-xl text-error hover:bg-error-container/20 transition-colors font-body text-sm"
+          href="#"
+        >
+          <span class="material-symbols-outlined">logout</span>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+    <!-- Top Navigation Bar -->
+    <header
+      class="w-full sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm dark:shadow-none transition-colors"
+    >
+      <div class="flex justify-between items-center px-6 py-3 w-full md:pl-72">
+        <div class="flex items-center gap-4">
+          <h1
+            class="text-xl font-bold tracking-tight text-blue-700 dark:text-blue-400 font-headline"
+          >
+            SpendLogic
+          </h1>
+        </div>
+        <div class="flex items-center gap-6">
+          <div
+            class="hidden sm:flex items-center bg-surface-container-low px-4 py-2 rounded-full w-64"
+          >
+            <span class="material-symbols-outlined text-outline text-sm"
+              >search</span
+            >
+            <input
+              class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-outline/60 font-body"
+              placeholder="Search transactions..."
+              type="text"
+            />
+          </div>
+          <div class="flex items-center gap-4">
+            <button
+              class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              <span class="material-symbols-outlined">notifications</span>
+            </button>
+            <button
+              class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              <span class="material-symbols-outlined">help_outline</span>
+            </button>
+            <div
+              class="w-8 h-8 rounded-full overflow-hidden bg-primary-fixed ring-2 ring-white"
+            >
+              <img
+                alt="User profile photo"
+                class="w-full h-full object-cover"
+                data-alt="professional headshot of a smiling executive in a modern office environment with warm natural lighting"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPZqn98pEjei5VCOFlCmsLfjmhIYGjCTGjCW8GqNm5_5Mi882e1G6ZsvyPXggUe7YyaPj0A8fddPWcBSYePhmy2AKsFTpQK2gdbAYZJac-PcYiFK0WCl25ZsXNw0_seqI0A1gCIR95MUALH1BjptqL2HGhb8Xs9czIkAsgoC8Usip7ckSUU5oZWEvNHUcJwbcTzCVhl73Ei1r2cg8Pi44yMurZyn3i9pksq108cD8CxfkcHodbk-rah7eusQ5xTamVo_Y-95nFFy3h"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Main Content Area -->
+    <main class="md:pl-64 pt-6 min-h-screen">
+      <div class="px-6 pb-12 max-w-7xl mx-auto">
+        <!-- Page Header -->
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8"
+        >
+          <div>
+            <h2
+              class="text-3xl font-extrabold text-on-surface font-headline tracking-tight mb-2"
+            >
+              Transactions
+            </h2>
+            <p class="text-on-surface-variant font-body">
+              Review and manage your organization's detailed expenditure.
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button
+              class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-lowest text-on-surface font-semibold rounded-xl hover:bg-surface-container-high transition-colors shadow-sm"
+            >
+              <span class="material-symbols-outlined text-sm">upload</span>
+              <span class="font-label text-sm">Export</span>
+            </button>
+            <button
+              class="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary font-semibold rounded-xl hover:bg-primary-container transition-all scale-100 active:scale-95 shadow-lg shadow-primary/20"
+            >
+              <span class="material-symbols-outlined text-sm">add</span>
+              <span class="font-label text-sm">New Expense</span>
+            </button>
+          </div>
+        </div>
+        <!-- Bento Filter Bar -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div
+            class="md:col-span-2 bg-surface-container-lowest p-4 rounded-xl shadow-sm flex items-center gap-4"
+          >
+            <div class="flex-1">
+              <label
+                class="block text-[10px] font-bold text-outline uppercase tracking-widest mb-1 px-1"
+                >Search</label
+              >
+              <div class="relative">
+                <span
+                  class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-outline/50"
+                  >search</span
+                >
+                <input
+                  class="w-full pl-8 pr-2 py-1 bg-transparent border-none focus:ring-0 text-sm font-body"
+                  placeholder="By vendor or description..."
+                  type="text"
+                />
+              </div>
+            </div>
+            <div class="h-10 w-px bg-outline-variant/30"></div>
+            <div class="flex-1">
+              <label
+                class="block text-[10px] font-bold text-outline uppercase tracking-widest mb-1 px-1"
+                >Date Range</label
+              >
+              <select
+                class="w-full bg-transparent border-none focus:ring-0 text-sm font-body py-1 cursor-pointer"
+              >
+                <option>Last 30 Days</option>
+                <option>Quarter to Date</option>
+                <option>Year to Date</option>
+                <option>Custom Range</option>
+              </select>
+            </div>
+          </div>
+          <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm">
+            <label
+              class="block text-[10px] font-bold text-outline uppercase tracking-widest mb-1 px-1"
+              >Category</label
+            >
+            <select
+              class="w-full bg-transparent border-none focus:ring-0 text-sm font-body py-1 cursor-pointer"
+            >
+              <option>All Categories</option>
+              <option>Travel</option>
+              <option>Software</option>
+              <option>Hardware</option>
+              <option>Dining</option>
+            </select>
+          </div>
+          <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm">
+            <label
+              class="block text-[10px] font-bold text-outline uppercase tracking-widest mb-1 px-1"
+              >Department</label
+            >
+            <select
+              class="w-full bg-transparent border-none focus:ring-0 text-sm font-body py-1 cursor-pointer"
+            >
+              <option>All Departments</option>
+              <option>Engineering</option>
+              <option>Marketing</option>
+              <option>Sales</option>
+              <option>Operations</option>
+            </select>
+          </div>
+        </div>
+        <!-- Transactions Table Card -->
+        <div
+          class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm"
+        >
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-surface-container-low">
+                  <th
+                    class="px-6 py-4 text-[11px] font-bold text-outline uppercase tracking-widest"
+                  >
+                    Date
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-bold text-outline uppercase tracking-widest"
+                  >
+                    Description
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-bold text-outline uppercase tracking-widest"
+                  >
+                    Category
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-bold text-outline uppercase tracking-widest"
+                  >
+                    Department
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-bold text-outline uppercase tracking-widest"
+                  >
+                    Amount
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-bold text-outline uppercase tracking-widest"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-bold text-outline uppercase tracking-widest text-right"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-outline-variant/10">
+                <!-- Row 1 -->
+                <tr
+                  class="hover:bg-surface-container-high transition-colors group"
+                >
+                  <td class="px-6 py-5">
+                    <div class="text-sm font-medium text-on-surface font-body">
+                      Oct 24, 2023
+                    </div>
+                    <div class="text-xs text-outline font-body">10:42 AM</div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary"
+                      >
+                        <span class="material-symbols-outlined">cloud</span>
+                      </div>
+                      <div>
+                        <div
+                          class="text-sm font-bold text-on-surface font-body"
+                        >
+                          Amazon Web Services
+                        </div>
+                        <div class="text-xs text-outline font-body">
+                          Monthly cloud infrastructure usage
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <span
+                      class="px-3 py-1 rounded-full bg-secondary-container/30 text-secondary text-xs font-semibold font-label"
+                      >Software</span
+                    >
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="text-sm text-on-surface-variant font-body">
+                      Engineering
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div
+                      class="text-sm font-bold text-on-surface font-body tabular-nums"
+                    >
+                      $1,240.50
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="flex items-center gap-2">
+                      <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                      <span
+                        class="text-xs font-semibold text-secondary font-label"
+                        >Approved</span
+                      >
+                    </div>
+                  </td>
+                  <td class="px-6 py-5 text-right">
+                    <div
+                      class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <button
+                        class="p-2 hover:bg-surface-variant rounded-lg text-outline"
+                      >
+                        <span class="material-symbols-outlined text-sm"
+                          >edit</span
+                        >
+                      </button>
+                      <button
+                        class="p-2 hover:bg-surface-variant rounded-lg text-outline"
+                      >
+                        <span class="material-symbols-outlined text-sm"
+                          >visibility</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Row 2 -->
+                <tr
+                  class="hover:bg-surface-container-high transition-colors group"
+                >
+                  <td class="px-6 py-5">
+                    <div class="text-sm font-medium text-on-surface font-body">
+                      Oct 22, 2023
+                    </div>
+                    <div class="text-xs text-outline font-body">03:15 PM</div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary"
+                      >
+                        <span class="material-symbols-outlined"
+                          >flight_takeoff</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="text-sm font-bold text-on-surface font-body"
+                        >
+                          United Airlines
+                        </div>
+                        <div class="text-xs text-outline font-body">
+                          NYC to SFO Flight - Q4 Planning
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <span
+                      class="px-3 py-1 rounded-full bg-primary-fixed/30 text-primary text-xs font-semibold font-label"
+                      >Travel</span
+                    >
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="text-sm text-on-surface-variant font-body">
+                      Executive
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div
+                      class="text-sm font-bold text-on-surface font-body tabular-nums"
+                    >
+                      $842.00
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="flex items-center gap-2">
+                      <div class="w-2 h-2 rounded-full bg-outline"></div>
+                      <span
+                        class="text-xs font-semibold text-outline font-label"
+                        >Pending</span
+                      >
+                    </div>
+                  </td>
+                  <td class="px-6 py-5 text-right">
+                    <div
+                      class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <button
+                        class="p-2 hover:bg-surface-variant rounded-lg text-outline"
+                      >
+                        <span class="material-symbols-outlined text-sm"
+                          >edit</span
+                        >
+                      </button>
+                      <button
+                        class="p-2 hover:bg-surface-variant rounded-lg text-outline"
+                      >
+                        <span class="material-symbols-outlined text-sm"
+                          >visibility</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Row 3 -->
+                <tr
+                  class="hover:bg-surface-container-high transition-colors group"
+                >
+                  <td class="px-6 py-5">
+                    <div class="text-sm font-medium text-on-surface font-body">
+                      Oct 20, 2023
+                    </div>
+                    <div class="text-xs text-outline font-body">12:30 PM</div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary"
+                      >
+                        <span class="material-symbols-outlined"
+                          >restaurant</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="text-sm font-bold text-on-surface font-body"
+                        >
+                          Blue Bottle Coffee
+                        </div>
+                        <div class="text-xs text-outline font-body">
+                          Client meeting catering
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <span
+                      class="px-3 py-1 rounded-full bg-tertiary-fixed/30 text-tertiary text-xs font-semibold font-label"
+                      >Dining</span
+                    >
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="text-sm text-on-surface-variant font-body">
+                      Marketing
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div
+                      class="text-sm font-bold text-on-surface font-body tabular-nums"
+                    >
+                      $156.40
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="flex items-center gap-2">
+                      <div class="w-2 h-2 rounded-full bg-tertiary"></div>
+                      <span
+                        class="text-xs font-semibold text-tertiary font-label"
+                        >Flagged</span
+                      >
+                    </div>
+                  </td>
+                  <td class="px-6 py-5 text-right">
+                    <div
+                      class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <button
+                        class="p-2 hover:bg-surface-variant rounded-lg text-outline"
+                      >
+                        <span class="material-symbols-outlined text-sm"
+                          >edit</span
+                        >
+                      </button>
+                      <button
+                        class="p-2 hover:bg-surface-variant rounded-lg text-outline"
+                      >
+                        <span class="material-symbols-outlined text-sm"
+                          >visibility</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Row 4 -->
+                <tr
+                  class="hover:bg-surface-container-high transition-colors group"
+                >
+                  <td class="px-6 py-5">
+                    <div class="text-sm font-medium text-on-surface font-body">
+                      Oct 19, 2023
+                    </div>
+                    <div class="text-xs text-outline font-body">09:00 AM</div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary"
+                      >
+                        <span class="material-symbols-outlined"
+                          >laptop_mac</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="text-sm font-bold text-on-surface font-body"
+                        >
+                          Apple Inc.
+                        </div>
+                        <div class="text-xs text-outline font-body">
+                          MacBook Pro for new hire
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <span
+                      class="px-3 py-1 rounded-full bg-secondary-container/30 text-secondary text-xs font-semibold font-label"
+                      >Hardware</span
+                    >
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="text-sm text-on-surface-variant font-body">
+                      Operations
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div
+                      class="text-sm font-bold text-on-surface font-body tabular-nums"
+                    >
+                      $2,499.00
+                    </div>
+                  </td>
+                  <td class="px-6 py-5">
+                    <div class="flex items-center gap-2">
+                      <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                      <span
+                        class="text-xs font-semibold text-secondary font-label"
+                        >Approved</span
+                      >
+                    </div>
+                  </td>
+                  <td class="px-6 py-5 text-right">
+                    <div
+                      class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <button
+                        class="p-2 hover:bg-surface-variant rounded-lg text-outline"
+                      >
+                        <span class="material-symbols-outlined text-sm"
+                          >edit</span
+                        >
+                      </button>
+                      <button
+                        class="p-2 hover:bg-surface-variant rounded-lg text-outline"
+                      >
+                        <span class="material-symbols-outlined text-sm"
+                          >visibility</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination Footer -->
+          <div
+            class="px-6 py-4 bg-surface-container-low flex items-center justify-between"
+          >
+            <p class="text-xs text-outline font-body">
+              Showing 1 to 4 of 42 transactions
+            </p>
+            <div class="flex items-center gap-2">
+              <button
+                class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-container-high text-outline transition-colors"
+              >
+                <span class="material-symbols-outlined text-lg"
+                  >chevron_left</span
+                >
+              </button>
+              <button
+                class="w-8 h-8 rounded-lg flex items-center justify-center bg-primary text-on-primary text-xs font-bold shadow-md shadow-primary/10"
+              >
+                1
+              </button>
+              <button
+                class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-container-high text-outline text-xs font-medium"
+              >
+                2
+              </button>
+              <button
+                class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-container-high text-outline text-xs font-medium"
+              >
+                3
+              </button>
+              <button
+                class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-container-high text-outline transition-colors"
+              >
+                <span class="material-symbols-outlined text-lg"
+                  >chevron_right</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Stats Overview (Bento Style) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+          <div
+            class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-l-4 border-primary"
+          >
+            <p
+              class="text-[10px] font-bold text-outline uppercase tracking-widest mb-2"
+            >
+              Monthly Budget Used
+            </p>
+            <div class="flex items-end justify-between">
+              <div>
+                <span class="text-2xl font-black text-on-surface font-headline"
+                  >$14,240</span
+                >
+                <span class="text-xs text-outline font-medium">/ $20k</span>
+              </div>
+              <span class="text-xs font-bold text-secondary font-label"
+                >+12% vs last mo</span
+              >
+            </div>
+            <div
+              class="w-full bg-surface-container-high h-1.5 rounded-full mt-4 overflow-hidden"
+            >
+              <div
+                class="bg-primary h-full w-[71%]"
+                style="border-radius: 0 0.375rem 0.375rem 0"
+              ></div>
+            </div>
+          </div>
+          <div
+            class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-l-4 border-tertiary"
+          >
+            <p
+              class="text-[10px] font-bold text-outline uppercase tracking-widest mb-2"
+            >
+              Flagged for Review
+            </p>
+            <div class="flex items-end justify-between">
+              <span class="text-2xl font-black text-on-surface font-headline"
+                >07</span
+              >
+              <span class="text-xs font-bold text-tertiary font-label"
+                >Requires action</span
+              >
+            </div>
+            <div class="mt-4 flex -space-x-2">
+              <div
+                class="w-6 h-6 rounded-full border-2 border-white bg-slate-200 overflow-hidden"
+              >
+                <img
+                  class="w-full h-full object-cover"
+                  data-alt="portrait of a young man with glasses in a minimalist creative studio"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4PX3mKoBIUJeUN3GJOOwQ6OLE8SKrONq9ml05ZuBfWGW962fZp1l_tuXUg6VAcOv2hjzHFveCKihVlyVfGo7IulRpDtx0sCX6a_WBTGEcQ1IueYJLMvapZ7Z-nR6tDPiJrDd0WCM4czVptYUm_19sQSJreZimd9H41m5u0IaqfAz06MQhAo07rWV4AWCBSS5NJ5xVcqUgHoGQoEYW0hZ8QTG9VcjHLJE84GvXpxgM5kfd6wZqVtlJ2zINNnRpo7ZkVhvu7Ya8WwbW"
+                />
+              </div>
+              <div
+                class="w-6 h-6 rounded-full border-2 border-white bg-slate-200 overflow-hidden"
+              >
+                <img
+                  class="w-full h-full object-cover"
+                  data-alt="headshot of a confident woman in corporate attire with soft office lighting"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNND2p9YYmpkv3fejz4w8rj5pW1_axlFEiL77PrKnDtnSccLY68OcUVclB7zbA7K8QkgbRm2k1VqS1S00bQn4C5UFxlas5NxBoZpXMbHUIXQg_pttjS2haHIjzDMpLAzCimElR_g5WHvRVgLrOG8Ioqvn-bNqaSMe9_6Mi5yaVcZFsW0G9Px8UzC6QIk8wbI8ZL7uoWtsS8XKx-SWgCRqgacQ9z1mgyolXmp1k0AJfStzY5LoPE0WgkYy9Gg67T2oH0yuNGczFKNhY"
+                />
+              </div>
+              <div
+                class="w-6 h-6 rounded-full border-2 border-white bg-slate-200 overflow-hidden flex items-center justify-center bg-slate-100 text-[10px] font-bold"
+              >
+                +5
+              </div>
+            </div>
+          </div>
+          <div
+            class="bg-primary text-on-primary p-6 rounded-xl shadow-lg relative overflow-hidden"
+          >
+            <div class="relative z-10">
+              <p
+                class="text-[10px] font-bold text-white/70 uppercase tracking-widest mb-2"
+              >
+                Pending Approvals
+              </p>
+              <span class="text-2xl font-black font-headline">$4,850.00</span>
+              <p class="text-xs text-white/80 mt-2 font-body italic">
+                "Finalize Q4 travel reports"
+              </p>
+              <button
+                class="mt-4 px-4 py-2 bg-white text-primary text-xs font-bold rounded-lg shadow-sm hover:bg-blue-50 transition-colors"
+              >
+                Review All
+              </button>
+            </div>
+            <!-- Decorative element -->
+            <div
+              class="absolute -bottom-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-2xl"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Bottom Navigation Bar (Mobile) -->
+    <nav
+      class="md:hidden fixed bottom-0 w-full bg-white/80 backdrop-blur-md px-6 py-3 flex justify-around items-center z-40 border-t border-slate-100"
+    >
+      <button class="flex flex-col items-center gap-1 text-slate-500">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="text-[10px] font-bold">Dashboard</span>
+      </button>
+      <button class="flex flex-col items-center gap-1 text-blue-700 font-bold">
+        <span
+          class="material-symbols-outlined"
+          style="font-variation-settings: &quot;FILL&quot; 1"
+          >receipt_long</span
+        >
+        <span class="text-[10px]">Expenses</span>
+      </button>
+      <button
+        class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center -translate-y-6 shadow-lg"
+      >
+        <span class="material-symbols-outlined">add</span>
+      </button>
+      <button class="flex flex-col items-center gap-1 text-slate-500">
+        <span class="material-symbols-outlined">analytics</span>
+        <span class="text-[10px] font-bold">Reports</span>
+      </button>
+      <button class="flex flex-col items-center gap-1 text-slate-500">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="text-[10px] font-bold">Settings</span>
+      </button>
+    </nav>
+  </body>
+</html>

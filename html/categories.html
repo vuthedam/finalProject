@@ -1,0 +1,776 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Categories - Ventura Ledger</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              surface: "#f7fafc",
+              "secondary-fixed-dim": "#85d3dd",
+              "on-error": "#ffffff",
+              "surface-container": "#ebeef0",
+              "secondary-container": "#9eecf6",
+              "primary-fixed": "#dae2ff",
+              outline: "#737785",
+              "on-secondary-container": "#0c6d76",
+              "surface-dim": "#d7dadc",
+              "tertiary-fixed-dim": "#ffb59b",
+              "outline-variant": "#c3c6d6",
+              "error-container": "#ffdad6",
+              "secondary-fixed": "#a1eff9",
+              "primary-fixed-dim": "#b2c5ff",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed": "#380d00",
+              "primary-container": "#0056d2",
+              error: "#ba1a1a",
+              tertiary: "#822800",
+              "surface-variant": "#e0e3e5",
+              "tertiary-container": "#a93802",
+              background: "#f7fafc",
+              "inverse-primary": "#b2c5ff",
+              "inverse-on-surface": "#eef1f3",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-container": "#ccd8ff",
+              "on-primary-fixed": "#001847",
+              "surface-bright": "#f7fafc",
+              "on-tertiary-fixed-variant": "#812800",
+              "on-surface-variant": "#424654",
+              "on-secondary-fixed": "#001f23",
+              "on-primary": "#ffffff",
+              "surface-container-low": "#f1f4f6",
+              "surface-container-highest": "#e0e3e5",
+              "surface-container-high": "#e5e9eb",
+              "inverse-surface": "#2d3133",
+              primary: "#0040a1",
+              "tertiary-fixed": "#ffdbcf",
+              "on-secondary-fixed-variant": "#004f56",
+              "surface-tint": "#0056d2",
+              "on-tertiary-container": "#ffcebd",
+              "on-tertiary": "#ffffff",
+              secondary: "#006972",
+              "on-secondary": "#ffffff",
+              "on-background": "#181c1e",
+              "on-surface": "#181c1e",
+              "on-primary-fixed-variant": "#0040a1",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .font-manrope {
+        font-family: "Manrope", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="bg-surface text-on-surface font-body">
+    <!-- Sidebar Navigation -->
+    <aside
+      class="h-screen w-64 fixed left-0 top-0 bg-slate-50 dark:bg-slate-950 flex flex-col h-full py-6 gap-2 flat no-shadows border-r border-slate-200 dark:border-slate-800 z-40"
+    >
+      <div class="px-6 mb-8">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center"
+          >
+            <span
+              class="material-symbols-outlined text-white text-sm"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >account_balance_wallet</span
+            >
+          </div>
+          <div>
+            <h2
+              class="font-manrope font-black text-blue-800 dark:text-blue-200 leading-tight"
+            >
+              Precision Clarity
+            </h2>
+            <p
+              class="text-[10px] text-slate-500 font-medium uppercase tracking-widest"
+            >
+              Enterprise Finance
+            </p>
+          </div>
+        </div>
+      </div>
+      <nav class="flex-1 space-y-1">
+        <a
+          class="flex items-center px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 mx-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all"
+          href="#"
+        >
+          <span class="material-symbols-outlined mr-3">dashboard</span>
+          <span class="font-manrope font-medium text-sm">Dashboard</span>
+        </a>
+        <a
+          class="flex items-center px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 mx-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all"
+          href="#"
+        >
+          <span class="material-symbols-outlined mr-3">receipt_long</span>
+          <span class="font-manrope font-medium text-sm">Expenses</span>
+        </a>
+        <a
+          class="flex items-center px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-semibold rounded-lg mx-2 transition-all"
+          href="#"
+        >
+          <span class="material-symbols-outlined mr-3">category</span>
+          <span class="font-manrope font-medium text-sm">Categories</span>
+        </a>
+        <a
+          class="flex items-center px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 mx-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all"
+          href="#"
+        >
+          <span class="material-symbols-outlined mr-3">bar_chart</span>
+          <span class="font-manrope font-medium text-sm">Reports</span>
+        </a>
+        <a
+          class="flex items-center px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 mx-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all"
+          href="#"
+        >
+          <span class="material-symbols-outlined mr-3">settings</span>
+          <span class="font-manrope font-medium text-sm">Settings</span>
+        </a>
+      </nav>
+      <div class="px-4 mt-auto">
+        <button
+          class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-xl font-manrope font-bold text-sm shadow-lg shadow-primary/20 active:scale-95 transition-all"
+        >
+          New Expense
+        </button>
+        <div class="mt-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+          <a
+            class="flex items-center px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 mx-2 transition-all"
+            href="#"
+          >
+            <span class="material-symbols-outlined mr-3 text-lg">logout</span>
+            <span class="font-manrope font-medium text-sm">Logout</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+    <!-- Main Content Canvas -->
+    <main
+      class="ml-64 min-h-screen bg-surface-container-low transition-all duration-300"
+    >
+      <!-- Top Navigation -->
+      <header
+        class="fixed top-0 right-0 left-64 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm dark:shadow-none px-8 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center gap-6">
+          <h1
+            class="font-manrope font-extrabold text-blue-700 dark:text-blue-400 text-xl tracking-tighter"
+          >
+            LedgerFlow
+          </h1>
+          <div class="relative group">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg"
+              >search</span
+            >
+            <input
+              class="pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-full text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+              placeholder="Search categories..."
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <button
+            class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button
+            class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
+          >
+            <span class="material-symbols-outlined">help</span>
+          </button>
+          <div
+            class="h-8 w-8 rounded-full overflow-hidden border-2 border-primary-fixed"
+          >
+            <img
+              alt="User profile avatar"
+              class="w-full h-full object-cover"
+              data-alt="professional portrait of a man in a light grey suit with a clean office background and soft natural lighting"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBoQOC5orB1ofsWjSMb4c--ZkMK3LIuCOA7vSX4kvMOdF4OJmaZq8GD854r0_d6DhxD134wVbfGuJKsCEV-UHQbd-riCKvlIan_AqtSPEhf2CVakSORfcErmB3FCrrVIVqzYwyEd6ZUFlSJuSd1lU57_E18AsSzPnkna-foHF30tx0_Gxg-u1ZI4PcgH0znDf191_DNQn8a4oIoNTK0nWnYPjxIoZCYtB_KGapRwZyPj8iEJ0oKQuzmrfqpx9SRJrYcXN-j53ogAvu"
+            />
+          </div>
+        </div>
+      </header>
+      <!-- Content Body -->
+      <div class="pt-24 px-8 pb-12">
+        <!-- Page Header -->
+        <div class="flex justify-between items-end mb-8">
+          <div>
+            <nav class="flex gap-2 text-xs font-medium text-slate-400 mb-2">
+              <span>Management</span>
+              <span class="material-symbols-outlined text-[12px]"
+                >chevron_right</span
+              >
+              <span class="text-primary font-semibold">Categories</span>
+            </nav>
+            <h2
+              class="font-manrope font-extrabold text-3xl text-on-surface tracking-tight"
+            >
+              Category Explorer
+            </h2>
+            <p class="text-on-surface-variant mt-1 text-sm">
+              Organize and tag your enterprise expenditures with precision.
+            </p>
+          </div>
+          <button
+            class="flex items-center gap-2 bg-on-surface text-surface py-2.5 px-6 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity"
+          >
+            <span class="material-symbols-outlined text-sm">add_circle</span>
+            New Category
+          </button>
+        </div>
+        <!-- Dashboard Stats Tonal Shifting (Bento Style Lite) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+            <p
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2"
+            >
+              Active Categories
+            </p>
+            <div class="flex items-baseline gap-2">
+              <span class="text-3xl font-manrope font-extrabold text-primary"
+                >24</span
+              >
+              <span class="text-xs text-secondary font-medium"
+                >+2 this month</span
+              >
+            </div>
+          </div>
+          <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+            <p
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2"
+            >
+              Most Used
+            </p>
+            <div class="flex items-baseline gap-2">
+              <span class="text-xl font-manrope font-bold text-on-surface"
+                >Travel</span
+              >
+              <span class="text-xs text-slate-400 font-medium"
+                >32% of vol.</span
+              >
+            </div>
+          </div>
+          <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+            <p
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2"
+            >
+              Unmapped Items
+            </p>
+            <div class="flex items-baseline gap-2">
+              <span class="text-3xl font-manrope font-extrabold text-tertiary"
+                >05</span
+              >
+              <span class="text-xs text-tertiary font-medium"
+                >Needs review</span
+              >
+            </div>
+          </div>
+          <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+            <p
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2"
+            >
+              System Health
+            </p>
+            <div class="flex items-center gap-2 mt-2">
+              <div
+                class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden"
+              >
+                <div class="w-4/5 h-full bg-secondary rounded-full"></div>
+              </div>
+              <span class="text-xs font-bold text-secondary">Optimal</span>
+            </div>
+          </div>
+        </div>
+        <!-- Categories Table Section -->
+        <div
+          class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden"
+        >
+          <div
+            class="px-6 py-4 bg-surface-container-low flex justify-between items-center"
+          >
+            <h3 class="font-manrope font-bold text-on-surface">
+              System Registry
+            </h3>
+            <div class="flex gap-2">
+              <button
+                class="p-1.5 bg-surface-container-highest rounded-md text-slate-600"
+              >
+                <span class="material-symbols-outlined text-sm"
+                  >filter_list</span
+                >
+              </button>
+              <button
+                class="p-1.5 bg-surface-container-highest rounded-md text-slate-600"
+              >
+                <span class="material-symbols-outlined text-sm">download</span>
+              </button>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-surface-container-low/50">
+                  <th
+                    class="px-6 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider"
+                  >
+                    Category
+                  </th>
+                  <th
+                    class="px-6 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider"
+                  >
+                    Total Linked Expenses
+                  </th>
+                  <th
+                    class="px-6 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider"
+                  >
+                    Default Tax Rate
+                  </th>
+                  <th
+                    class="px-6 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="px-6 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider text-right"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <!-- Travel Row -->
+                <tr
+                  class="hover:bg-surface-container-high transition-colors group"
+                >
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform"
+                      >
+                        <span class="material-symbols-outlined">flight</span>
+                      </div>
+                      <div>
+                        <p class="font-manrope font-bold text-on-surface">
+                          Travel
+                        </p>
+                        <p class="text-xs text-slate-400">
+                          Flights, Hotels, Transit
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="px-6 py-4 font-body text-sm font-medium text-slate-600"
+                  >
+                    421 transactions
+                  </td>
+                  <td
+                    class="px-6 py-4 font-body text-sm font-medium text-slate-600"
+                  >
+                    7.00%
+                  </td>
+                  <td class="px-6 py-4">
+                    <span
+                      class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-secondary-container text-on-secondary-container uppercase tracking-tight"
+                      >Active</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex justify-end gap-2">
+                      <button
+                        class="p-2 text-slate-400 hover:text-primary transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-lg"
+                          >edit</span
+                        >
+                      </button>
+                      <button
+                        class="p-2 text-slate-400 hover:text-error transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-lg"
+                          >delete</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Meals Row -->
+                <tr
+                  class="hover:bg-surface-container-high transition-colors group"
+                >
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform"
+                      >
+                        <span class="material-symbols-outlined"
+                          >restaurant</span
+                        >
+                      </div>
+                      <div>
+                        <p class="font-manrope font-bold text-on-surface">
+                          Meals
+                        </p>
+                        <p class="text-xs text-slate-400">
+                          Client dinners, Catering
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="px-6 py-4 font-body text-sm font-medium text-slate-600"
+                  >
+                    1,204 transactions
+                  </td>
+                  <td
+                    class="px-6 py-4 font-body text-sm font-medium text-slate-600"
+                  >
+                    12.50%
+                  </td>
+                  <td class="px-6 py-4">
+                    <span
+                      class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-secondary-container text-on-secondary-container uppercase tracking-tight"
+                      >Active</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex justify-end gap-2">
+                      <button
+                        class="p-2 text-slate-400 hover:text-primary transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-lg"
+                          >edit</span
+                        >
+                      </button>
+                      <button
+                        class="p-2 text-slate-400 hover:text-error transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-lg"
+                          >delete</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Software Row -->
+                <tr
+                  class="hover:bg-surface-container-high transition-colors group"
+                >
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform"
+                      >
+                        <span class="material-symbols-outlined"
+                          >developer_board</span
+                        >
+                      </div>
+                      <div>
+                        <p class="font-manrope font-bold text-on-surface">
+                          Software
+                        </p>
+                        <p class="text-xs text-slate-400">
+                          SaaS, Cloud Hosting, APIs
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="px-6 py-4 font-body text-sm font-medium text-slate-600"
+                  >
+                    88 transactions
+                  </td>
+                  <td
+                    class="px-6 py-4 font-body text-sm font-medium text-slate-600"
+                  >
+                    0.00%
+                  </td>
+                  <td class="px-6 py-4">
+                    <span
+                      class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-secondary-container text-on-secondary-container uppercase tracking-tight"
+                      >Active</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex justify-end gap-2">
+                      <button
+                        class="p-2 text-slate-400 hover:text-primary transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-lg"
+                          >edit</span
+                        >
+                      </button>
+                      <button
+                        class="p-2 text-slate-400 hover:text-error transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-lg"
+                          >delete</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Office Row -->
+                <tr
+                  class="hover:bg-surface-container-high transition-colors group"
+                >
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center text-teal-600 group-hover:scale-110 transition-transform"
+                      >
+                        <span class="material-symbols-outlined"
+                          >inventory_2</span
+                        >
+                      </div>
+                      <div>
+                        <p class="font-manrope font-bold text-on-surface">
+                          Office Supplies
+                        </p>
+                        <p class="text-xs text-slate-400">
+                          Stationary, Furniture
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="px-6 py-4 font-body text-sm font-medium text-slate-600"
+                  >
+                    145 transactions
+                  </td>
+                  <td
+                    class="px-6 py-4 font-body text-sm font-medium text-slate-600"
+                  >
+                    8.00%
+                  </td>
+                  <td class="px-6 py-4">
+                    <span
+                      class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-secondary-container text-on-secondary-container uppercase tracking-tight"
+                      >Active</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex justify-end gap-2">
+                      <button
+                        class="p-2 text-slate-400 hover:text-primary transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-lg"
+                          >edit</span
+                        >
+                      </button>
+                      <button
+                        class="p-2 text-slate-400 hover:text-error transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-lg"
+                          >delete</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Miscellaneous (Archived Example) -->
+                <tr
+                  class="hover:bg-surface-container-high transition-colors group opacity-60"
+                >
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500"
+                      >
+                        <span class="material-symbols-outlined"
+                          >more_horiz</span
+                        >
+                      </div>
+                      <div>
+                        <p class="font-manrope font-bold text-on-surface">
+                          Legacy Misc
+                        </p>
+                        <p class="text-xs text-slate-400">
+                          Old system remnants
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="px-6 py-4 font-body text-sm font-medium text-slate-600"
+                  >
+                    12 transactions
+                  </td>
+                  <td
+                    class="px-6 py-4 font-body text-sm font-medium text-slate-600"
+                  >
+                    0.00%
+                  </td>
+                  <td class="px-6 py-4">
+                    <span
+                      class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-surface-container-highest text-on-surface-variant uppercase tracking-tight"
+                      >Archived</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex justify-end gap-2">
+                      <button
+                        class="p-2 text-slate-400 hover:text-primary transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-lg"
+                          >unarchive</span
+                        >
+                      </button>
+                      <button
+                        class="p-2 text-slate-400 hover:text-error transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-lg"
+                          >delete</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            class="px-6 py-4 border-t border-slate-100 flex items-center justify-between"
+          >
+            <p class="text-xs font-medium text-slate-500 font-body">
+              Showing 5 of 24 categories
+            </p>
+            <div class="flex gap-2">
+              <button
+                class="px-3 py-1 border border-outline-variant rounded text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+              >
+                Previous
+              </button>
+              <button
+                class="px-3 py-1 border border-outline-variant rounded text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Contextual Insight (Minimal Bento Card) -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            class="relative overflow-hidden rounded-2xl bg-primary-container p-8 text-white min-h-[200px] flex flex-col justify-end"
+          >
+            <div class="absolute top-0 right-0 p-12 opacity-10">
+              <span
+                class="material-symbols-outlined text-[120px]"
+                style="font-variation-settings: &quot;FILL&quot; 1"
+                >insights</span
+              >
+            </div>
+            <div class="relative z-10">
+              <h4 class="font-manrope font-extrabold text-2xl mb-2">
+                Smart Categorization
+              </h4>
+              <p class="text-primary-fixed-dim text-sm max-w-sm mb-4">
+                Our AI recently identified 14 recurring transactions that could
+                be automatically mapped to your 'Software' category.
+              </p>
+              <button
+                class="bg-white text-primary px-6 py-2 rounded-full font-bold text-sm shadow-xl active:scale-95 transition-all"
+              >
+                Review Auto-Maps
+              </button>
+            </div>
+          </div>
+          <div
+            class="rounded-2xl bg-surface-container-highest p-8 flex flex-col border border-white/40 shadow-inner"
+          >
+            <div class="flex items-center gap-4 mb-4">
+              <div
+                class="w-12 h-12 rounded-xl bg-white flex items-center justify-center shadow-sm"
+              >
+                <span class="material-symbols-outlined text-tertiary"
+                  >warning</span
+                >
+              </div>
+              <div>
+                <h4 class="font-manrope font-bold text-on-surface">
+                  Orphaned Tags Detected
+                </h4>
+                <p class="text-on-surface-variant text-xs">
+                  Categories with no transactions in 90 days.
+                </p>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div
+                class="flex justify-between items-center py-2 border-b border-white/20"
+              >
+                <span class="text-sm font-medium text-slate-700"
+                  >Office Rent (Legacy)</span
+                >
+                <button class="text-xs font-bold text-primary hover:underline">
+                  Clean up
+                </button>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-sm font-medium text-slate-700"
+                  >Team Outings (H2-23)</span
+                >
+                <button class="text-xs font-bold text-primary hover:underline">
+                  Archive
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Contextual Floating Action - Only visible on specific scroll or intent -->
+    <button
+      class="fixed bottom-8 right-8 w-14 h-14 bg-on-surface text-surface rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-50 md:hidden"
+    >
+      <span class="material-symbols-outlined">add</span>
+    </button>
+  </body>
+</html>
