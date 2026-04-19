@@ -10,30 +10,48 @@ import {
   Legend,
   LineChart,
   Line,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
 
+const COLORS = ["#4ade80", "#86efac", "#22c55e", "#bbf7d0", "#16a34a"];
+
 export const Reports = () => {
-  const [transactions, setTransactions] = useState([]);
+  const [expenses, setExpenses] = useState([]);
+  const [incomes, setIncomes] = useState([]);
+  const [expenseCategories, setExpenseCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [groupBy, setGroupBy] = useState("day");
 
+  const userId = JSON.parse(localStorage.getItem("user"))?.id;
+
   useEffect(() => {
     const today = new Date();
-    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-
-    setFromDate(firstDay.toISOString().slice(0, 10));
+    setFromDate(
+      new Date(today.getFullYear(), today.getMonth(), 1)
+        .toISOString()
+        .slice(0, 10),
+    );
     setToDate(today.toISOString().slice(0, 10));
   }, []);
 
   useEffect(() => {
-    const fetchTransactions = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:3000/transactions");
-        const data = await res.json();
-        setTransactions(data);
+
+        const [resE, resI, resC] = await Promise.all([
+          fetch(`http://localhost:3000/expenses?userId=${userId}`),
+          fetch(`http://localhost:3000/incomes?userId=${userId}`),
+          fetch(`http://localhost:3000/expenseCategories?userId=${userId}`),
+        ]);
+
+        setExpenses(await resE.json());
+        setIncomes(await resI.json());
+        setExpenseCategories(await resC.json());
       } catch (err) {
         console.log(err);
         alert("❌ Lỗi load reports data");
@@ -42,162 +60,208 @@ export const Reports = () => {
       }
     };
 
-    fetchTransactions();
-  }, []);
+    fetchData();
+  }, [userId]);
 
-  const filteredTransactions = useMemo(() => {
-    return transactions.filter((t) => {
-      if (!t.date) return false;
-      if (!fromDate || !toDate) return true;
+  const inRange = (date) => {
+    if (!date) return false;
+    if (!fromDate || !toDate) return true;
 
-      const current = new Date(t.date);
-      const start = new Date(fromDate);
-      const end = new Date(toDate);
+    const d = new Date(date);
+    const s = new Date(fromDate);
+    s.setHours(0, 0, 0, 0);
 
-      start.setHours(0, 0, 0, 0);
-      end.setHours(23, 59, 59, 999);
+    const e = new Date(toDate);
+    e.setHours(23, 59, 59, 999);
 
-      return current >= start && current <= end;
-    });
-  }, [transactions, fromDate, toDate]);
+    return d >= s && d <= e;
+  };
 
-  const incomeTotal = useMemo(() => {
-    return filteredTransactions
-      .filter((t) => t.type === "income")
-      .reduce((sum, t) => sum + Number(t.amount || 0), 0);
-  }, [filteredTransactions]);
+  const filteredExpenses = useMemo(
+    () => expenses.filter((t) => inRange(t.date)),
+    [expenses, fromDate, toDate],
+  );
 
-  const expenseTotal = useMemo(() => {
-    return filteredTransactions
-      .filter((t) => t.type === "expense")
-      .reduce((sum, t) => sum + Number(t.amount || 0), 0);
-  }, [filteredTransactions]);
+  const filteredIncomes = useMemo(
+    () => incomes.filter((t) => inRange(t.date)),
+    [incomes, fromDate, toDate],
+  );
+
+  const incomeTotal = useMemo(
+    () => filteredIncomes.reduce((sum, t) => sum + Number(t.amount || 0), 0),
+    [filteredIncomes],
+  );
+
+  const expenseTotal = useMemo(
+    () => filteredExpenses.reduce((sum, t) => sum + Number(t.amount || 0), 0),
+    [filteredExpenses],
+  );
+
+  const balance = incomeTotal - expenseTotal;
+
+  const savingPercent =
+    incomeTotal > 0 ? Math.round((balance / incomeTotal) * 100) : 0;
+
+  const getKey = (date) => {
+    if (groupBy === "month") return String(date).slice(0, 7);
+
+    if (groupBy === "week") {
+      const d = new Date(date);
+      const first = new Date(d.getFullYear(), 0, 1);
+      const week = Math.ceil(
+        (Math.floor((d - first) / 86400000) + first.getDay() + 1) / 7,
+      );
+      return `${d.getFullYear()}-W${String(week).padStart(2, "0")}`;
+    }
+
+    return String(date).slice(0, 10);
+  };
 
   const groupedChartData = useMemo(() => {
-    const getWeekLabel = (dateString) => {
-      const date = new Date(dateString);
-      const firstDay = new Date(date.getFullYear(), 0, 1);
-      const diffDays = Math.floor(
-        (date - firstDay) / (1000 * 60 * 60 * 24),
-      );
-      const week = Math.ceil((diffDays + firstDay.getDay() + 1) / 7);
-      return `${date.getFullYear()}-W${String(week).padStart(2, "0")}`;
-    };
-
     const map = {};
 
-    filteredTransactions.forEach((t) => {
-      if (!t.date) return;
+    filteredExpenses.forEach((t) => {
+      const key = getKey(t.date);
+      if (!map[key]) map[key] = { label: key, income: 0, expense: 0 };
+      map[key].expense += Number(t.amount || 0);
+    });
 
-      let key = "";
-
-      if (groupBy === "day") {
-        key = String(t.date).slice(0, 10);
-      } else if (groupBy === "month") {
-        key = String(t.date).slice(0, 7);
-      } else if (groupBy === "week") {
-        key = getWeekLabel(t.date);
-      }
-
-      if (!map[key]) {
-        map[key] = {
-          label: key,
-          income: 0,
-          expense: 0,
-        };
-      }
-
-      if (t.type === "income") {
-        map[key].income += Number(t.amount || 0);
-      } else if (t.type === "expense") {
-        map[key].expense += Number(t.amount || 0);
-      }
+    filteredIncomes.forEach((t) => {
+      const key = getKey(t.date);
+      if (!map[key]) map[key] = { label: key, income: 0, expense: 0 };
+      map[key].income += Number(t.amount || 0);
     });
 
     return Object.values(map).sort((a, b) => a.label.localeCompare(b.label));
-  }, [filteredTransactions, groupBy]);
+  }, [filteredExpenses, filteredIncomes, groupBy]);
+
+  const categoryPieData = useMemo(() => {
+    return expenseCategories
+      .map((c) => ({
+        name: c.name,
+        value: filteredExpenses
+          .filter((t) => t.categoryId == c.id)
+          .reduce((sum, t) => sum + Number(t.amount || 0), 0),
+      }))
+      .filter((c) => c.value > 0);
+  }, [expenseCategories, filteredExpenses]);
 
   const handleQuickFilter = (type) => {
     const today = new Date();
     const end = today.toISOString().slice(0, 10);
 
-    if (type === "7days") {
-      const start = new Date();
-      start.setDate(today.getDate() - 6);
-      setFromDate(start.toISOString().slice(0, 10));
-      setToDate(end);
-    }
+    const starts = {
+      "7days": () => {
+        const d = new Date();
+        d.setDate(today.getDate() - 6);
+        return d;
+      },
+      "30days": () => {
+        const d = new Date();
+        d.setDate(today.getDate() - 29);
+        return d;
+      },
+      month: () => new Date(today.getFullYear(), today.getMonth(), 1),
+      year: () => new Date(today.getFullYear(), 0, 1),
+    };
 
-    if (type === "30days") {
-      const start = new Date();
-      start.setDate(today.getDate() - 29);
-      setFromDate(start.toISOString().slice(0, 10));
-      setToDate(end);
-    }
-
-    if (type === "month") {
-      const start = new Date(today.getFullYear(), today.getMonth(), 1);
-      setFromDate(start.toISOString().slice(0, 10));
-      setToDate(end);
-    }
-
-    if (type === "year") {
-      const start = new Date(today.getFullYear(), 0, 1);
-      setFromDate(start.toISOString().slice(0, 10));
-      setToDate(end);
-    }
+    setFromDate(starts[type]().toISOString().slice(0, 10));
+    setToDate(end);
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-xl">
-        ⏳ Loading...
+      <div className="flex min-h-screen items-center justify-center bg-[#f7fbf8]">
+        <div className="rounded-[28px] border border-emerald-50 bg-white/85 px-8 py-6 text-lg font-semibold text-slate-600 shadow-sm">
+          ⏳ Đang tải báo cáo...
+        </div>
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-slate-100">
-      <div className="p-6 md:p-8 space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Reports</h1>
-          <p className="text-sm text-slate-500">
-            Chọn ngày, lọc dữ liệu và xem biểu đồ theo tuần / tháng / khoảng thời gian
-          </p>
-        </div>
+    <main className="min-h-screen bg-[#f7fbf8]">
+      <div className="space-y-6 p-6 md:p-8">
+        {/* Header */}
+        <section className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-emerald-300 via-emerald-400 to-green-400 p-7 text-white shadow-sm md:p-8">
+          <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
+          <div className="absolute bottom-0 left-1/3 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
 
-        <section className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="relative">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/90">
+              Reports
+            </p>
+            <h1 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
+              Financial Analytics
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-white/90 md:text-base">
+              Phân tích thu chi theo thời gian, theo dõi xu hướng tài chính và
+              xem danh mục chi tiêu nổi bật của bạn.
+            </p>
+          </div>
+        </section>
+
+        {/* Filter */}
+        <section className="rounded-[32px] border border-emerald-50 bg-white/85 p-6 shadow-sm">
+          <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
             <div>
-              <label className="block text-sm font-medium text-slate-600 mb-2">
+              <h2 className="text-lg font-bold text-slate-900">
+                Bộ lọc báo cáo
+              </h2>
+              <p className="text-sm text-slate-500">
+                Chọn khoảng thời gian và kiểu nhóm dữ liệu
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {[
+                ["7days", "7 ngày"],
+                ["30days", "30 ngày"],
+                ["month", "Tháng này"],
+                ["year", "Năm nay"],
+              ].map(([key, label]) => (
+                <button
+                  key={key}
+                  onClick={() => handleQuickFilter(key)}
+                  className="rounded-2xl bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-100"
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+            <div>
+              <label className="mb-2 block text-sm font-semibold text-slate-600">
                 Từ ngày
               </label>
               <input
                 type="date"
-                className="w-full border border-slate-300 rounded-xl px-4 py-2.5"
+                className="w-full rounded-3xl border border-transparent bg-emerald-50/60 px-5 py-3.5 text-sm outline-none transition focus:bg-white focus:ring-4 focus:ring-emerald-100"
                 value={fromDate}
                 onChange={(e) => setFromDate(e.target.value)}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-600 mb-2">
+              <label className="mb-2 block text-sm font-semibold text-slate-600">
                 Đến ngày
               </label>
               <input
                 type="date"
-                className="w-full border border-slate-300 rounded-xl px-4 py-2.5"
+                className="w-full rounded-3xl border border-transparent bg-emerald-50/60 px-5 py-3.5 text-sm outline-none transition focus:bg-white focus:ring-4 focus:ring-emerald-100"
                 value={toDate}
                 onChange={(e) => setToDate(e.target.value)}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-600 mb-2">
+              <label className="mb-2 block text-sm font-semibold text-slate-600">
                 Nhóm theo
               </label>
               <select
-                className="w-full border border-slate-300 rounded-xl px-4 py-2.5"
+                className="w-full rounded-3xl border border-transparent bg-emerald-50/60 px-5 py-3.5 text-sm outline-none transition focus:bg-white focus:ring-4 focus:ring-emerald-100"
                 value={groupBy}
                 onChange={(e) => setGroupBy(e.target.value)}
               >
@@ -213,121 +277,179 @@ export const Reports = () => {
                   setFromDate("");
                   setToDate("");
                 }}
-                className="w-full bg-slate-200 text-slate-700 rounded-xl px-4 py-2.5 font-semibold"
+                className="w-full rounded-3xl bg-emerald-50 px-5 py-3.5 text-sm font-semibold text-slate-700 transition hover:bg-white"
               >
                 Xóa lọc
               </button>
             </div>
           </div>
-
-          <div className="flex flex-wrap gap-3">
-            <button
-              onClick={() => handleQuickFilter("7days")}
-              className="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl font-semibold"
-            >
-              7 ngày
-            </button>
-            <button
-              onClick={() => handleQuickFilter("30days")}
-              className="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl font-semibold"
-            >
-              30 ngày
-            </button>
-            <button
-              onClick={() => handleQuickFilter("month")}
-              className="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl font-semibold"
-            >
-              Tháng này
-            </button>
-            <button
-              onClick={() => handleQuickFilter("year")}
-              className="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl font-semibold"
-            >
-              Năm nay
-            </button>
-          </div>
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <p className="text-sm text-slate-500 mb-2">Tổng thu</p>
-            <h2 className="text-3xl font-bold text-green-500">
+        {/* Stats */}
+        <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          <div className="rounded-[30px] border border-emerald-50 bg-white/85 p-6 shadow-sm">
+            <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-lg">
+              💰
+            </div>
+            <p className="text-sm text-slate-500">Tổng thu</p>
+            <h2 className="mt-2 text-3xl font-black text-emerald-500">
               {incomeTotal.toLocaleString()} đ
             </h2>
+            <p className="mt-2 text-xs text-slate-400">
+              {filteredIncomes.length} giao dịch
+            </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <p className="text-sm text-slate-500 mb-2">Tổng chi</p>
-            <h2 className="text-3xl font-bold text-red-500">
+          <div className="rounded-[30px] border border-emerald-50 bg-white/85 p-6 shadow-sm">
+            <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-lg">
+              💸
+            </div>
+            <p className="text-sm text-slate-500">Tổng chi</p>
+            <h2 className="mt-2 text-3xl font-black text-rose-500">
               {expenseTotal.toLocaleString()} đ
             </h2>
+            <p className="mt-2 text-xs text-slate-400">
+              {filteredExpenses.length} giao dịch
+            </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <p className="text-sm text-slate-500 mb-2">Chênh lệch</p>
-            <h2 className="text-3xl font-bold text-blue-600">
-              {(incomeTotal - expenseTotal).toLocaleString()} đ
+          <div className="rounded-[30px] border border-emerald-50 bg-white/85 p-6 shadow-sm">
+            <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-lg">
+              📊
+            </div>
+            <p className="text-sm text-slate-500">Chênh lệch</p>
+            <h2
+              className={`mt-2 text-3xl font-black ${
+                balance >= 0 ? "text-emerald-600" : "text-rose-500"
+              }`}
+            >
+              {balance.toLocaleString()} đ
             </h2>
+            <p className="mt-2 text-xs text-slate-400">
+              {incomeTotal > 0 ? `Tiết kiệm ${savingPercent}%` : "-"}
+            </p>
           </div>
         </section>
 
-        <section className="bg-white rounded-2xl p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-900 mb-5">
-            Biểu đồ thu / chi
-          </h3>
+        {/* Bar chart */}
+        <section className="rounded-[32px] border border-emerald-50 bg-white/85 p-6 shadow-sm">
+          <div className="mb-5">
+            <h3 className="text-lg font-bold text-slate-900">
+              Biểu đồ thu / chi
+            </h3>
+            <p className="text-sm text-slate-500">
+              So sánh thu nhập và chi tiêu theo {groupBy}
+            </p>
+          </div>
 
-          <div className="h-96">
+          <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={groupedChartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="label" />
-                <YAxis />
-                <Tooltip
-                  formatter={(value) =>
-                    `${Number(value).toLocaleString()} đ`
-                  }
-                />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="label" tick={{ fontSize: 12 }} />
+                <YAxis tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+                <Tooltip formatter={(v) => `${Number(v).toLocaleString()} đ`} />
                 <Legend />
-                <Bar dataKey="income" fill="#22c55e" name="Thu" />
-                <Bar dataKey="expense" fill="#ef4444" name="Chi" />
+                <Bar
+                  dataKey="income"
+                  fill="#4ade80"
+                  name="Thu"
+                  radius={[8, 8, 0, 0]}
+                />
+                <Bar
+                  dataKey="expense"
+                  fill="#fb7185"
+                  name="Chi"
+                  radius={[8, 8, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </section>
 
-        <section className="bg-white rounded-2xl p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-900 mb-5">
-            Xu hướng thu / chi
-          </h3>
+        {/* Line + Pie */}
+        <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+          <div className="rounded-[32px] border border-emerald-50 bg-white/85 p-6 shadow-sm">
+            <div className="mb-5">
+              <h3 className="text-lg font-bold text-slate-900">
+                Xu hướng thu / chi
+              </h3>
+              <p className="text-sm text-slate-500">
+                Theo dõi biến động tài chính theo thời gian
+              </p>
+            </div>
 
-          <div className="h-96">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={groupedChartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="label" />
-                <YAxis />
-                <Tooltip
-                  formatter={(value) =>
-                    `${Number(value).toLocaleString()} đ`
-                  }
-                />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="income"
-                  stroke="#22c55e"
-                  strokeWidth={3}
-                  name="Thu"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="expense"
-                  stroke="#ef4444"
-                  strokeWidth={3}
-                  name="Chi"
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={groupedChartData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis dataKey="label" tick={{ fontSize: 12 }} />
+                  <YAxis tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+                  <Tooltip
+                    formatter={(v) => `${Number(v).toLocaleString()} đ`}
+                  />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="income"
+                    stroke="#4ade80"
+                    strokeWidth={3}
+                    name="Thu"
+                    dot={false}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="expense"
+                    stroke="#fb7185"
+                    strokeWidth={3}
+                    name="Chi"
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="rounded-[32px] border border-emerald-50 bg-white/85 p-6 shadow-sm">
+            <div className="mb-5">
+              <h3 className="text-lg font-bold text-slate-900">
+                Chi tiêu theo danh mục
+              </h3>
+              <p className="text-sm text-slate-500">
+                Tỷ trọng chi tiêu trong từng danh mục
+              </p>
+            </div>
+
+            {categoryPieData.length > 0 ? (
+              <div className="h-72">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={categoryPieData}
+                      dataKey="value"
+                      nameKey="name"
+                      outerRadius={100}
+                      innerRadius={55}
+                      paddingAngle={3}
+                      label={({ name, percent }) =>
+                        `${name} ${(percent * 100).toFixed(0)}%`
+                      }
+                    >
+                      {categoryPieData.map((_, i) => (
+                        <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(v) => `${Number(v).toLocaleString()} đ`}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <div className="flex h-72 items-center justify-center text-slate-400">
+                Không có dữ liệu
+              </div>
+            )}
           </div>
         </section>
       </div>
