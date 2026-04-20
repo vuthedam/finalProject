@@ -26,6 +26,9 @@ export const ExpenseTransactions = () => {
     order: "desc",
   });
 
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -121,6 +124,11 @@ export const ExpenseTransactions = () => {
     (sum, t) => sum + Number(t.amount || 0),
     0,
   );
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  React.useEffect(() => { setPage(1); }, [filters, sort]);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn có muốn xóa không?")) return;
@@ -322,7 +330,7 @@ export const ExpenseTransactions = () => {
 
               <tbody>
                 {filtered.length > 0 ? (
-                  filtered.map((t) => (
+                  paginated.map((t) => (
                     <tr
                       key={t.id}
                       className="border-b border-slate-100 transition hover:bg-[#f8fcf9]"
@@ -378,8 +386,37 @@ export const ExpenseTransactions = () => {
             </table>
           </div>
 
-          <div className="border-t border-slate-100 px-6 py-4 text-sm text-slate-500">
-            Total: {filtered.length} transactions
+          <div className="border-t border-slate-100 px-6 py-4 flex items-center justify-between flex-wrap gap-3">
+            <span className="text-sm text-slate-500">
+              {filtered.length} transactions | {totalFilteredAmount.toLocaleString()} đ
+            </span>
+            <div className="flex items-center gap-1">
+              <button onClick={() => setPage(1)} disabled={page === 1}
+                className="px-2 py-1 rounded-lg text-sm disabled:opacity-30 hover:bg-emerald-50">«</button>
+              <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}
+                className="px-3 py-1 rounded-lg text-sm disabled:opacity-30 hover:bg-emerald-50">‹</button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
+                .reduce((acc, p, i, arr) => {
+                  if (i > 0 && p - arr[i - 1] > 1) acc.push("...");
+                  acc.push(p);
+                  return acc;
+                }, [])
+                .map((p, i) =>
+                  p === "..." ? (
+                    <span key={i} className="px-2 text-slate-400">...</span>
+                  ) : (
+                    <button key={p} onClick={() => setPage(p)}
+                      className={`px-3 py-1 rounded-lg text-sm font-semibold ${
+                        page === p ? "bg-emerald-500 text-white" : "hover:bg-emerald-50 text-slate-600"
+                      }`}>{p}</button>
+                  )
+                )}
+              <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages}
+                className="px-3 py-1 rounded-lg text-sm disabled:opacity-30 hover:bg-emerald-50">›</button>
+              <button onClick={() => setPage(totalPages)} disabled={page === totalPages}
+                className="px-2 py-1 rounded-lg text-sm disabled:opacity-30 hover:bg-emerald-50">»</button>
+            </div>
           </div>
         </div>
       </div>
