@@ -31,6 +31,38 @@
       "categoryId": 1,
       "userId": 2,
       "id": 4
+    },
+    {
+      "description": "Tiền quần áo",
+      "amount": 500000,
+      "date": "2026-03-23",
+      "categoryId": 4,
+      "userId": 2,
+      "id": 5
+    },
+    {
+      "description": "Đồ cá nhân",
+      "amount": 300000,
+      "date": "2026-03-30",
+      "categoryId": 4,
+      "userId": 2,
+      "id": 6
+    },
+    {
+      "description": "Đi chơi",
+      "amount": 200000,
+      "date": "2026-04-08",
+      "categoryId": 5,
+      "userId": 2,
+      "id": 7
+    },
+    {
+      "description": "Đi du lịch",
+      "amount": 1000000,
+      "date": "2026-03-09",
+      "categoryId": 5,
+      "userId": 2,
+      "id": 8
     }
   ],
   "incomes": [
@@ -52,9 +84,21 @@
     },
     {
       "name": "xe",
-      "budget": 200000,
+      "budget": 1000000,
       "userId": 2,
       "id": 3
+    },
+    {
+      "name": "Chi tiêu cá nhân",
+      "budget": 1000000,
+      "userId": 2,
+      "id": 4
+    },
+    {
+      "name": "Giải trí",
+      "budget": 1000000,
+      "userId": 2,
+      "id": 5
     }
   ],
   "incomeCategories": [
@@ -76,6 +120,12 @@
       "password": "$2a$10$OXyDNtk4PLV5Hk5X2/ONBe.MJeOnziV.r8CZdEamUJnTzEFtvDjAi",
       "fullname": "dammm",
       "id": 2
+    },
+    {
+      "email": "admin1@gmail.com",
+      "password": "$2a$10$gnmH5eUR9Ms05Yww4H5VbuvDm1DAmhqpQh.CHAB5Kn9uvCpE8x.AO",
+      "fullname": "admin",
+      "id": 3
     }
   ]
 }

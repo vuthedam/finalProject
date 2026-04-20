@@ -114,6 +114,7 @@ export const ExpenseTransactionForm = () => {
             <input
               type="date"
               value={form.date}
+              max={new Date().toLocaleDateString("en-CA")}
               onChange={(e) => setForm((p) => ({ ...p, date: e.target.value }))}
               className="w-full rounded-3xl bg-emerald-50/60 px-5 py-[18px] outline-none focus:ring-4 focus:ring-emerald-100"
             />

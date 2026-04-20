@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useBudgetAlerts } from "../../hooks/useBudgetAlerts";
 
 export const ExpenseCategories = () => {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ export const ExpenseCategories = () => {
   const [loading, setLoading] = useState(true);
 
   const userId = JSON.parse(localStorage.getItem("user"))?.id;
+  const alerts = useBudgetAlerts();
+  const alertMap = Object.fromEntries(alerts.map((a) => [a.id, a]));
 
   const fetchData = async () => {
     try {
@@ -148,10 +151,18 @@ export const ExpenseCategories = () => {
             </thead>
 
             <tbody>
-              {filteredCategories.map((c) => (
+              {filteredCategories.map((c) => {
+                const alert = alertMap[c.id];
+                const isOver = alert?.percent >= 100;
+                const isNear = alert?.percent >= 80 && alert?.percent < 100;
+                return (
                 <tr
                   key={c.id}
-                  className="border-t hover:bg-[#f8fcf9] transition"
+                  className={`border-t transition ${
+                    isOver ? "bg-red-50 hover:bg-red-100" :
+                    isNear ? "bg-yellow-50 hover:bg-yellow-100" :
+                    "hover:bg-[#f8fcf9]"
+                  }`}
                 >
                   <td className="px-6 py-4 font-semibold text-emerald-600">
                     <Link to={`/expense/transactions?categoryId=${c.id}`}>
@@ -163,20 +174,45 @@ export const ExpenseCategories = () => {
                     {Number(c.budget || 0).toLocaleString()} đ
                   </td>
 
-                  <td className="px-6 py-4 text-rose-500 font-semibold">
-                    {spentByCategory(c.id).toLocaleString()} đ
+                  <td className="px-6 py-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className={`font-semibold ${
+                          isOver ? "text-red-600" : isNear ? "text-yellow-600" : "text-rose-500"
+                        }`}>
+                          {spentByCategory(c.id).toLocaleString()} đ
+                        </span>
+                        {isOver && (
+                          <span className="text-xs bg-red-100 text-red-600 font-bold px-2 py-0.5 rounded-full">
+                            🚨 Vượt {alert.percent}%
+                          </span>
+                        )}
+                        {isNear && (
+                          <span className="text-xs bg-yellow-100 text-yellow-700 font-bold px-2 py-0.5 rounded-full">
+                            ⚠️ {alert.percent}%
+                          </span>
+                        )}
+                      </div>
+                      {alert && (
+                        <div className="w-32 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                          <div
+                            className={`h-1.5 rounded-full ${
+                              isOver ? "bg-red-500" : "bg-yellow-400"
+                            }`}
+                            style={{ width: `${Math.min(alert.percent, 100)}%` }}
+                          />
+                        </div>
+                      )}
+                    </div>
                   </td>
 
                   <td className="px-6 py-4 text-right space-x-3">
                     <button
-                      onClick={() =>
-                        navigate(`/expense/categories/${c.id}/edit`)
-                      }
+                      onClick={() => navigate(`/expense/categories/${c.id}/edit`)}
                       className="text-emerald-600 font-medium hover:underline"
                     >
                       Edit
                     </button>
-
                     <button
                       onClick={() => handleDelete(c.id)}
                       className="text-rose-500 font-medium hover:underline"
@@ -185,7 +221,8 @@ export const ExpenseCategories = () => {
                     </button>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
 
               {filteredCategories.length === 0 && (
                 <tr>

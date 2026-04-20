@@ -143,6 +143,7 @@ export const IncomeTransactionForm = () => {
               <input
                 type="date"
                 value={form.date}
+                max={new Date().toLocaleDateString("en-CA")}
                 onChange={(e) =>
                   setForm((p) => ({ ...p, date: e.target.value }))
                 }
